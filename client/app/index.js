@@ -14,10 +14,12 @@ form.addEventListener("submit", (event) => {
     const td = document.createElement("td");
     td.textContent = field.value;
     tr.appendChild(td);
+    field.value = field.min || "";
   });
 
   const tdVolume = document.createElement("td");
   tdVolume.textContent = fields[1].value * fields[2].value;
   tr.appendChild(tdVolume);
   tbody.appendChild(tr);
+  fields[0].focus();
 });
