@@ -1,6 +1,7 @@
 class Negotiations {
   constructor() {
     this._negotiationsList = [];
+    Object.freeze(this);
   }
 
   add(negotiation) {
@@ -10,6 +11,10 @@ class Negotiations {
 
   toArray() {
     return [].concat(this._negotiationsList);
+  }
+
+  removeAll() {
+    this._negotiationsList.length = 0;
   }
 
   get totalVolume() {
