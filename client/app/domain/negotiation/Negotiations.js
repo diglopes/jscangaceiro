@@ -11,4 +11,8 @@ class Negotiations {
   toArray() {
     return [].concat(this._negotiationsList);
   }
+
+  get totalVolume() {
+    return this.toArray().reduce((acc, cur) => acc + cur.volume, 0);
+  }
 }

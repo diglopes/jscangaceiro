@@ -32,7 +32,12 @@ class NegotiationsView {
                   .join("")}
             </tbody>
 
-            <tfoot></tfoot>
+            <tfoot>
+                <tr>
+                    <td colspan=3></td>
+                    <td>${model.totalVolume}</td>
+                </tr>
+            </tfoot>
         </table>
         `;
   }
