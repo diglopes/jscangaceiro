@@ -4,7 +4,7 @@ class Negotiation {
       _quantity,
       _value,
     });
-    this._date = new Date(date.getTime());
+    this._date = new Date(_date.getTime());
     Object.freeze(this);
   }
 
