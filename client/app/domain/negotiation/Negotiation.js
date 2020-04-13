@@ -20,7 +20,7 @@ class Negotiation {
     return this._value;
   }
 
-  get Volume() {
+  get volume() {
     return this._quantity * this._value;
   }
 }

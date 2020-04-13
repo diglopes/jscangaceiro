@@ -2,12 +2,14 @@ class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
     this._negotiations = new Negotiations();
+    this._negotiationsView = new NegotiationsView("#negotiations");
   }
 
   add(event) {
     event.preventDefault();
     this._negotiations.add(this._createNegotiation());
     this._cleanForm();
+    this._negotiationsView.update(this._negotiations);
   }
 
   _createNegotiation() {
