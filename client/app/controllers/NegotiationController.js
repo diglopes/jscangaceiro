@@ -5,14 +5,14 @@ class NegotiationController {
 
   add(event) {
     event.preventDefault();
-    const date = new Date(this._dateInput.value.replace(/-/g, ","));
-
+    const d = new DateConverter();
+    const date = DateConverter.toDate(this._dateInput.value);
     let negotiation = new Negotiation(
       date,
       parseInt(this._quantityInput.value),
       parseFloat(this._valueInput.value)
     );
-
-    console.log(negotiation);
+    const newDateFormat = DateConverter.toText(date);
+    console.log(newDateFormat);
   }
 }
