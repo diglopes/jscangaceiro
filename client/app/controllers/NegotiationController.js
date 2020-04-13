@@ -1,6 +1,7 @@
 class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
+    this._negotiations = new Negotiations();
   }
 
   add(event) {
@@ -12,7 +13,6 @@ class NegotiationController {
       parseInt(this._quantityInput.value),
       parseFloat(this._valueInput.value)
     );
-    const newDateFormat = DateConverter.toText(date);
-    console.log(newDateFormat);
+    this._negotiations.add(negotiation);
   }
 }
