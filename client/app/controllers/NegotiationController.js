@@ -6,14 +6,17 @@ class NegotiationController {
 
   add(event) {
     event.preventDefault();
+    this._negotiations.add(this._createNegotiation());
+    this._cleanForm();
+  }
+
+  _createNegotiation() {
     const date = DateConverter.toDate(this._dateInput.value);
-    let negotiation = new Negotiation(
+    return new Negotiation(
       date,
       parseInt(this._quantityInput.value),
       parseFloat(this._valueInput.value)
     );
-    this._negotiations.add(negotiation);
-    this._cleanForm();
   }
 
   _cleanForm() {
