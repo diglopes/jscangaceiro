@@ -3,13 +3,14 @@ class NegotiationController {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
     this._negotiations = new Negotiations();
     this._negotiationsView = new NegotiationsView("#negotiations");
-    this._message = new Message();
+    this._message = new Message("Negociação adicionada com sucesso!");
+    this._messageView = new MessageView("#message-view");
   }
 
   add(event) {
     event.preventDefault();
     this._negotiations.add(this._createNegotiation());
-    this._message.text = "Negociação adicionada com sucesso!";
+    this._messageView.update(this._message);
     this._cleanForm();
     this._negotiationsView.update(this._negotiations);
   }
