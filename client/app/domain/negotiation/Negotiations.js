@@ -1,12 +1,13 @@
 class Negotiations {
-  constructor() {
+  constructor(renderStrategy) {
     this._negotiationsList = [];
+    this._renderStrategy = renderStrategy;
     Object.freeze(this);
   }
 
   add(negotiation) {
     this._negotiationsList.push(negotiation);
-    console.log(this._negotiationsList);
+    this._renderStrategy(this);
   }
 
   toArray() {
@@ -15,6 +16,7 @@ class Negotiations {
 
   removeAll() {
     this._negotiationsList.length = 0;
+    this._renderStrategy(this);
   }
 
   get totalVolume() {

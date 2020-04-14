@@ -1,7 +1,9 @@
 class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
-    this._negotiations = new Negotiations();
+    this._negotiations = new Negotiations((model) =>
+      this._negotiationsView.update(model)
+    );
     this._negotiationsView = new NegotiationsView("#negotiations");
     this._message = new Message();
     this._messageView = new MessageView("#message-view");
@@ -13,12 +15,10 @@ class NegotiationController {
     this._message.text = "Negociação adicionada com sucesso!";
     this._messageView.update(this._message);
     this._cleanForm();
-    this._negotiationsView.update(this._negotiations);
   }
 
   clear() {
     this._negotiations.removeAll();
-    this._negotiationsView.update(this._negotiations);
     this._message.text = "Negociações removidas!";
     this._messageView.update(this._message);
   }
