@@ -10,7 +10,9 @@ class NegotiationController {
       }
     );
     this._negotiationsView = new NegotiationsView("#negotiations");
-    this._message = new Message();
+    this._message = ProxyFactory.create(new Message(), ["text"], (model) => {
+      this._messageView.update(model);
+    });
     this._messageView = new MessageView("#message-view");
   }
 
@@ -18,14 +20,12 @@ class NegotiationController {
     event.preventDefault();
     this._negotiations.add(this._createNegotiation());
     this._message.text = "Negociação adicionada com sucesso!";
-    this._messageView.update(this._message);
     this._cleanForm();
   }
 
   clear() {
     this._negotiations.removeAll();
     this._message.text = "Negociações removidas!";
-    this._messageView.update(this._message);
   }
 
   _createNegotiation() {
