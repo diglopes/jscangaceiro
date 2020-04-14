@@ -2,18 +2,14 @@ class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
     const self = this;
-    this._negotiations = ProxyFactory.create(
+    this._negotiations = new Bind(
       new Negotiations(),
-      ["add", "removeAll"],
-      (model) => {
-        this._negotiationsView.update(model);
-      }
+      new NegotiationsView("#negotiations"),
+      ["add", "removeAll"]
     );
-    this._negotiationsView = new NegotiationsView("#negotiations");
-    this._message = ProxyFactory.create(new Message(), ["text"], (model) => {
-      this._messageView.update(model);
-    });
-    this._messageView = new MessageView("#message-view");
+    this._message = new Bind(new Message(), new MessageView("#message-view"), [
+      "text",
+    ]);
   }
 
   add(event) {
