@@ -8,12 +8,15 @@ class DateConverter {
   }
 
   static toDate(text) {
-    const regex = /^\d{4}-\d{2}-\d{2}$/;
+    const regex = /^\d{2}\/\d{2}\/\d{4}$/;
     if (!regex.test(text)) {
-      throw new Error("The date format should be aaaa-mm-dd.");
+      throw new Error("The date format should be dd/mm/aaaa.");
     }
     return new Date(
-      ...text.split("-").map((item, index) => item - (index % 2))
+      ...text
+        .split("/")
+        .reverse()
+        .map((item, index) => item - (index % 2))
     );
   }
 }
