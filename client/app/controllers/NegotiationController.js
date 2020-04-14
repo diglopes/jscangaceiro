@@ -15,10 +15,20 @@ class NegotiationController {
   }
 
   add(event) {
-    event.preventDefault();
-    this._negotiations.add(this._createNegotiation());
-    this._message.text = "Negociação adicionada com sucesso!";
-    this._cleanForm();
+    try {
+      event.preventDefault();
+      this._negotiations.add(this._createNegotiation());
+      this._message.text = "Negociação adicionada com sucesso!";
+      this._cleanForm();
+    } catch (error) {
+      console.error(error);
+      if (error instanceof InvalidDateException) {
+        this._message.text = error.message;
+      } else {
+        this._message.text =
+          "Um erro não esperado aconteceu. Entre em contato com o suporte.";
+      }
+    }
   }
 
   clear() {

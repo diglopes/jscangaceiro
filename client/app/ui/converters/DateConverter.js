@@ -10,7 +10,7 @@ class DateConverter {
   static toDate(text) {
     const regex = /^\d{2}\/\d{2}\/\d{4}$/;
     if (!regex.test(text)) {
-      throw new Error("The date format should be dd/mm/aaaa.");
+      throw new InvalidDateException();
     }
     return new Date(
       ...text
