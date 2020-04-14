@@ -2,21 +2,13 @@ class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
     const self = this;
-    this._negotiations = new Proxy(new Negotiations(), {
-      get(target, prop, receiver) {
-        if (
-          typeof target[prop] === typeof Function &&
-          ["add", "removeAll"].includes(prop)
-        ) {
-          return function () {
-            target[prop].apply(target, arguments);
-            self._negotiationsView.update(target);
-          };
-        }
-
-        return target[prop];
-      },
-    });
+    this._negotiations = ProxyFactory.create(
+      new Negotiations(),
+      ["add", "removeAll"],
+      (model) => {
+        this._negotiationsView.update(model);
+      }
+    );
     this._negotiationsView = new NegotiationsView("#negotiations");
     this._message = new Message();
     this._messageView = new MessageView("#message-view");
