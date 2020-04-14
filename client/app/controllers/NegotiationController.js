@@ -1,15 +1,17 @@
 class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
-    const self = this;
     this._negotiations = new Bind(
       new Negotiations(),
       new NegotiationsView("#negotiations"),
-      ["add", "removeAll"]
+      "add",
+      "removeAll"
     );
-    this._message = new Bind(new Message(), new MessageView("#message-view"), [
-      "text",
-    ]);
+    this._message = new Bind(
+      new Message(),
+      new MessageView("#message-view"),
+      "text"
+    );
   }
 
   add(event) {
