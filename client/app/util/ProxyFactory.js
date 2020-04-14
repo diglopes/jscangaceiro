@@ -2,7 +2,7 @@ class ProxyFactory {
   static create(obj, props, action) {
     return new Proxy(obj, {
       get(target, prop) {
-        if (typeof target[prop] === typeof Function && props.includes(prop)) {
+        if (ProxyFactory._isFunction(target[prop]) && props.includes(prop)) {
           return function () {
             target[prop].apply(target, arguments);
             action(target);
@@ -17,5 +17,9 @@ class ProxyFactory {
         return updated;
       },
     });
+  }
+
+  static _isFunction(fn) {
+    return typeof fn === typeof Function;
   }
 }
