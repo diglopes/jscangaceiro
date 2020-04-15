@@ -47,6 +47,10 @@ class NegotiationController {
       })
       .then((lastWeek) => {
         negotiations.push(...lastWeek);
+        return this._service.getOldestNegotiations();
+      })
+      .then((oldest) => {
+        negotiations.push(...oldest);
         negotiations.forEach((negotiation) =>
           this._negotiations.add(negotiation)
         );
