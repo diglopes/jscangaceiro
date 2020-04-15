@@ -51,4 +51,33 @@ class NegotiationController {
     this._valueInput.value = 0.0;
     this._dateInput.focus();
   }
+
+  importNegotiations() {
+    const xhr = new XMLHttpRequest();
+    xhr.open("get", "negociacoes/semana");
+    xhr.onreadystatechange = () => {
+      // Check if the state is "finished"
+      if (xhr.readyState === 4) {
+        if (xhr.status === 200) {
+          const negotiations = JSON.parse(xhr.responseText);
+          negotiations.forEach((negotiation) => {
+            this._negotiations.add(new Negotiation(
+              new Date(negotiation.data),
+              negotiation.quantidade,
+              negotiation.valor
+            ))
+            this._message.text =
+            "Negociações importadas com sucesso!";
+          });
+        } else {
+          console.log(this);
+          console.error(xhr.responseText);
+          this._message.text =
+            "Não foi possivel obter as negociações da semana.";
+            
+        }
+      }
+    };
+    xhr.send();
+  }
 }

@@ -5,6 +5,7 @@ const btnClear = $("#botao-apaga");
 const dateInput = $("#data");
 const quantityInput = $("#quantidade");
 const valueInput = $("#valor");
+const importBtn = $("#botao-importa");
 
 const controller = new NegotiationController(
   dateInput,
@@ -14,3 +15,4 @@ const controller = new NegotiationController(
 
 form.addEventListener("submit", controller.add.bind(controller));
 btnClear.addEventListener("click", controller.clear.bind(controller));
+importBtn.addEventListener("click", controller.importNegotiations.bind(controller));
