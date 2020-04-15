@@ -38,22 +38,15 @@ class NegotiationController {
   }
 
   importNegotiations() {
-    const negotiations = [];
-    this._service
-      .getTheWeekNegotiations()
-      .then((currentWeek) => {
-        negotiations.push(...currentWeek);
-        return this._service.getLastWeekNegotiations();
-      })
-      .then((lastWeek) => {
-        negotiations.push(...lastWeek);
-        return this._service.getOldestNegotiations();
-      })
-      .then((oldest) => {
-        negotiations.push(...oldest);
-        negotiations.forEach((negotiation) =>
-          this._negotiations.add(negotiation)
-        );
+    Promise.all([
+      this._service.getTheWeekNegotiations(),
+      this._service.getLastWeekNegotiations(),
+      this._service.getOldestNegotiations(),
+    ])
+      .then((responses) => {
+        responses
+          .reduce((newArr, curArr) => newArr.concat(curArr), [])
+          .forEach((negotiation) => this._negotiations.add(negotiation));
         this._message.text = "Negociações importadas com sucesso!";
       })
       .catch((err) => (this._message.text = err));
