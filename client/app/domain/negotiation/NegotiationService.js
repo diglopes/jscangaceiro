@@ -58,9 +58,11 @@ class NegotiationService {
       this.getLastWeekNegotiations(),
       this.getOldestNegotiations(),
     ])
-      .then((responses) => {
-        return responses.reduce((newArr, curArr) => newArr.concat(curArr), []);
-      })
+      .then((responses) =>
+        responses
+          .reduce((newArr, curArr) => newArr.concat(curArr), [])
+          .sort((a, b) => b.date.getTime() - a.date.getTime())
+      )
       .catch((err) => {
         throw new Error("Não foi possivel obter as negociações do período.");
       });
