@@ -1,29 +1,20 @@
 class NegotiationService {
+  constructor() {
+    this._http = new HttpService();
+  }
+
   getTheWeekNegotiations() {
-    return new Promise((resolve, reject) => {
-      const xhr = new XMLHttpRequest();
-      xhr.open("get", "negociacoes/semana");
-      xhr.onreadystatechange = () => {
-        // Check if the state is "finished"
-        if (xhr.readyState === 4) {
-          if (xhr.status === 200) {
-            const negotiations = JSON.parse(xhr.responseText).map(
-              (negotiation) => {
-                return new Negotiation(
-                  new Date(negotiation.data),
-                  negotiation.quantidade,
-                  negotiation.valor
-                );
-              }
-            );
-            resolve(negotiations);
-          } else {
-            console.error(xhr.responseText);
-            reject("Não foi possível importar as negociações da semana.");
-          }
-        }
-      };
-      xhr.send();
-    });
+    return this._http.get("negociacoes/semana").then(
+      (data) => {
+        const negotiations = data.map(
+          ({ data, quantidade, valor }) =>
+            new Negotiation(new Date(data), quantidade, valor)
+        );
+        return negotiations;
+      },
+      (err) => {
+        throw new Error("Não foi possivel obter as negociações.");
+      }
+    );
   }
 }
