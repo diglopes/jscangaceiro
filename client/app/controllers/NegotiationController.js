@@ -38,15 +38,12 @@ class NegotiationController {
   }
 
   importNegotiations() {
-    Promise.all([
-      this._service.getTheWeekNegotiations(),
-      this._service.getLastWeekNegotiations(),
-      this._service.getOldestNegotiations(),
-    ])
-      .then((responses) => {
-        responses
-          .reduce((newArr, curArr) => newArr.concat(curArr), [])
-          .forEach((negotiation) => this._negotiations.add(negotiation));
+    this._service
+      .getPeriodNegotiations()
+      .then((negotiations) => {
+        negotiations.forEach((negotiation) =>
+          this._negotiations.add(negotiation)
+        );
         this._message.text = "Negociações importadas com sucesso!";
       })
       .catch((err) => (this._message.text = err));

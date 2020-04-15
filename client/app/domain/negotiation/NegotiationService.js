@@ -51,4 +51,18 @@ class NegotiationService {
       }
     );
   }
+
+  getPeriodNegotiations() {
+    return Promise.all([
+      this.getTheWeekNegotiations(),
+      this.getLastWeekNegotiations(),
+      this.getOldestNegotiations(),
+    ])
+      .then((responses) => {
+        return responses.reduce((newArr, curArr) => newArr.concat(curArr), []);
+      })
+      .catch((err) => {
+        throw new Error("Não foi possivel obter as negociações do período.");
+      });
+  }
 }
