@@ -41,9 +41,15 @@ class NegotiationController {
     this._service
       .getPeriodNegotiations()
       .then((negotiations) => {
-        negotiations.forEach((negotiation) =>
-          this._negotiations.add(negotiation)
-        );
+        negotiations
+          .filter((negotiation) => {
+            return !this._negotiations
+              .toArray()
+              .some((existentNegotiation) =>
+                existentNegotiation.equals(negotiation)
+              );
+          })
+          .forEach((negotiation) => this._negotiations.add(negotiation));
         this._message.text = "Negociações importadas com sucesso!";
       })
       .catch((err) => (this._message.text = err));
