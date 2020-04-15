@@ -38,14 +38,15 @@ class NegotiationController {
   }
 
   importNegotiations() {
-    this._service.getTheWeekNegotiations((err, negotiation) => {
-      if (err) {
-        this._message.text = "Não foi possível obter as negociações da semana.";
-        return;
-      }
-      this._negotiations.add(negotiation);
-      this._message.text = "Negociações importadas com sucesso!";
-    });
+    this._service.getTheWeekNegotiations().then(
+      (negotiations) => {
+        negotiations.forEach((negotiation) =>
+          this._negotiations.add(negotiation)
+        );
+        this._message.text = "Negociações importadas com sucesso!";
+      },
+      (err) => (this._message.text = err)
+    );
   }
 
   _createNegotiation() {
