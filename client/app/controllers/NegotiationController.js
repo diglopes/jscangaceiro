@@ -38,15 +38,21 @@ class NegotiationController {
   }
 
   importNegotiations() {
-    this._service.getTheWeekNegotiations().then(
-      (negotiations) => {
+    const negotiations = [];
+    this._service
+      .getTheWeekNegotiations()
+      .then((currentWeek) => {
+        negotiations.push(...currentWeek);
+        return this._service.getLastWeekNegotiations();
+      })
+      .then((lastWeek) => {
+        negotiations.push(...lastWeek);
         negotiations.forEach((negotiation) =>
           this._negotiations.add(negotiation)
         );
         this._message.text = "Negociações importadas com sucesso!";
-      },
-      (err) => (this._message.text = err)
-    );
+      })
+      .catch((err) => (this._message.text = err));
   }
 
   _createNegotiation() {
