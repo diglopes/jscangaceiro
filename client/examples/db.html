@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Aprendendo IndexedDB</title>
+  </head>
+  <body>
+    <script src="app/domain/negotiation/Negotiation.js"></script>
+    <script>
+      let connection = null;
+      const openRequest = indexedDB.open("jscangaceiro", 2);
+      openRequest.onupgradeneeded = (e) => {
+        console.log("Cria ou altera um banco de dados existente");
+        connection = e.target.result;
+        if (connection.objectStoreNames.contains("negociacoes")) {
+          connection.deleteObjectStore("negociacoes");
+        }
+        connection.createObjectStore("negociacoes", { autoIncrement: true });
+      };
+      openRequest.onsuccess = (e) => {
+        console.log("Conexão feita com sucesso");
+        connection = e.target.result;
+      };
+      openRequest.onerror = (e) => {
+        console.log(e.target.error);
+      };
+
+      function add() {
+        const negotiation = new Negotiation(new Date(), 100, 1);
+
+        const request = connection
+          .transaction(["negociacoes"], "readwrite")
+          .objectStore("negociacoes")
+          .add(negotiation);
+        request.onsuccess = (e) => console.log("Deu bom :D");
+        request.onerror = (e) => console.log("Deu ruim :(");
+      }
+
+      function list() {
+        const negotiations = [];
+        const cursor = connection
+          .transaction(["negociacoes"], "readonly")
+          .objectStore("negociacoes")
+          .openCursor();
+        cursor.onsuccess = ({ target }) => {
+          const current = target.result;
+          if (current) {
+            negotiations.push(
+              new Negotiation(
+                new Date(current.date),
+                current.quantity,
+                current.value
+              )
+            );
+            current.continue();
+          } else {
+            console.log(negotiations);
+          }
+        };
+        cursor.onerror = (e) => console.log("Deu ruim :(");
+      }
+    </script>
+  </body>
+</html>
