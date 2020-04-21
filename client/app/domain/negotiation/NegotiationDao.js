@@ -45,4 +45,19 @@ class NegotiationDao {
       cursor.onerror = ({ target }) => reject(target.error);
     });
   }
+
+  deleteAll() {
+    return new Promise((resolve, reject) => {
+      const request = this._connection
+        .transaction([this._store], "readwrite")
+        .objectStore(this._store)
+        .clear();
+
+      request.onsuccess = () => resolve(true);
+      request.onerror = ({ target }) => {
+        console.error(target.error);
+        reject("Não foi possivel apagar as negociações.");
+      };
+    });
+  }
 }

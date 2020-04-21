@@ -48,8 +48,15 @@ class NegotiationController {
   }
 
   clear() {
-    this._negotiations.removeAll();
-    this._message.text = "Negociações removidas!";
+    DaoFactory.getNegotiationDao()
+      .then((dao) => dao.deleteAll())
+      .then(() => {
+        this._negotiations.removeAll();
+        this._message.text = "Negociações removidas!";
+      })
+      .catch((err) => {
+        this._message.text = err;
+      });
   }
 
   importNegotiations() {
