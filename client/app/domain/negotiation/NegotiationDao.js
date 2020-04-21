@@ -29,8 +29,12 @@ class NegotiationDao {
       cursor.onsuccess = ({ target }) => {
         const current = target.result;
         if (current) {
-          const { date, quantity, value } = current;
-          const negotiation = new Negotiation(new Date(date), quantity, value);
+          const { _date, _quantity, _value } = current.value;
+          const negotiation = new Negotiation(
+            new Date(_date),
+            _quantity,
+            _value
+          );
           negotiations.push(negotiation);
           current.continue();
         } else {
