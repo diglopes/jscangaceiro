@@ -17,7 +17,7 @@ class NegotiationController {
   }
 
   _init() {
-    DaoFactory.getNegotiationDao()
+    getNegotiationDao()
       .then((dao) => dao.getAll())
       .then((negotiations) => {
         negotiations.forEach((n) => this._negotiations.add(n));
@@ -27,7 +27,7 @@ class NegotiationController {
   add(event) {
     try {
       event.preventDefault();
-      DaoFactory.getNegotiationDao()
+      getNegotiationDao()
         .then((dao) => {
           dao.save(this._createNegotiation());
         })
@@ -48,7 +48,7 @@ class NegotiationController {
   }
 
   clear() {
-    DaoFactory.getNegotiationDao()
+    getNegotiationDao()
       .then((dao) => dao.deleteAll())
       .then(() => {
         this._negotiations.removeAll();
