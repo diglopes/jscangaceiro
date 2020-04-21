@@ -17,4 +17,28 @@ class NegotiationDao {
       };
     });
   }
+
+  getAll() {
+    return new Promise((resolve, reject) => {
+      const negotiations = [];
+      const cursor = this._connection
+        .transaction([this._store], "readwrite")
+        .objectStore(this._store)
+        .openCursor();
+
+      cursor.onsuccess = ({ target }) => {
+        const current = target.result;
+        if (current) {
+          const { date, quantity, value } = current;
+          const negotiation = new Negotiation(new Date(date), quantity, value);
+          negotiations.push(negotiation);
+          current.continue();
+        } else {
+          resolve(negotiations);
+        }
+      };
+
+      cursor.onerror = ({ target }) => reject(target.error);
+    });
+  }
 }
