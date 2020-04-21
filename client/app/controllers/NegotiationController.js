@@ -13,6 +13,15 @@ class NegotiationController {
       "text"
     );
     this._service = new NegotiationService();
+    this._init();
+  }
+
+  _init() {
+    DaoFactory.getNegotiationDao()
+      .then((dao) => dao.getAll())
+      .then((negotiations) => {
+        negotiations.forEach((n) => this._negotiations.add(n));
+      });
   }
 
   add(event) {
