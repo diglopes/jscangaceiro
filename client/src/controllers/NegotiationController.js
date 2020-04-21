@@ -1,4 +1,15 @@
-class NegotiationController {
+import { Negotiations } from "../domain/negotiation/Negotiations.js";
+import { Negotiation } from "../domain/negotiation/Negotiation.js";
+import { NegotiationsView } from "../ui/views/NegotiationsView.js";
+import { Message } from "../ui/models/Message.js";
+import { MessageView } from "../ui/views/MessageView.js";
+import { NegotiationService } from "../domain/negotiation/NegotiationService.js";
+import { getNegotiationDao } from "../util/DaoFactory.js";
+import { DateConverter } from "../ui/converters/DateConverter.js";
+import { Bind } from "../util/Bind.js";
+import { InvalidDateException } from "../ui/converters/InvalidDateException.js";
+
+export class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
     this._negotiations = new Bind(

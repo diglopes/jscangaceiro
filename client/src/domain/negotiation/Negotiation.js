@@ -1,4 +1,4 @@
-class Negotiation {
+export class Negotiation {
   constructor(_date, _quantity, _value) {
     Object.assign(this, {
       _quantity,

@@ -1,4 +1,7 @@
-class NegotiationsView extends View {
+import { View } from "./View.js";
+import { DateConverter } from "../converters/DateConverter.js";
+
+export class NegotiationsView extends View {
   template(model) {
     return `
         <table class="table table-hover table-bordered">
