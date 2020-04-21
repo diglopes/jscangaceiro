@@ -18,9 +18,15 @@ class NegotiationController {
   add(event) {
     try {
       event.preventDefault();
-      this._negotiations.add(this._createNegotiation());
-      this._message.text = "Negociação adicionada com sucesso!";
-      this._cleanForm();
+      DaoFactory.getNegotiationDao()
+        .then((dao) => {
+          dao.save(this._createNegotiation());
+        })
+        .then(() => {
+          this._message.text = "Negociação adicionada com sucesso!";
+          this._cleanForm();
+        })
+        .catch((err) => (this._message.text = err));
     } catch (error) {
       console.error(error);
       if (error instanceof InvalidDateException) {
