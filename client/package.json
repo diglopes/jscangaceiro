@@ -4,7 +4,8 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "build": "babel src -d app --source-maps"
+    "build": "babel src -d app --source-maps",
+    "watch": "yarn build -- --watch"
   },
   "dependencies": {
     "systemjs": "0.20.12"
