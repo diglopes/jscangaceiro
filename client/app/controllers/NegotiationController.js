@@ -26,12 +26,14 @@ class NegotiationController {
 
   add(event) {
     try {
+      const negotiation = this._createNegotiation();
       event.preventDefault();
       getNegotiationDao()
         .then((dao) => {
-          dao.save(this._createNegotiation());
+          dao.save(negotiation);
         })
         .then(() => {
+          this._negotiations.add(negotiation);
           this._message.text = "Negociação adicionada com sucesso!";
           this._cleanForm();
         })
