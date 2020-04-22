@@ -49,19 +49,18 @@ export class NegotiationService {
     );
   }
 
-  getPeriodNegotiations() {
-    return Promise.all([
-      this.getTheWeekNegotiations(),
-      this.getLastWeekNegotiations(),
-      this.getOldestNegotiations(),
-    ])
-      .then((responses) =>
-        responses
-          .reduce((newArr, curArr) => newArr.concat(curArr), [])
-          .sort((a, b) => b.date.getTime() - a.date.getTime())
-      )
-      .catch((err) => {
-        throw new Error("Não foi possivel obter as negociações do período.");
-      });
+  async getPeriodNegotiations() {
+    try {
+      const period = await Promise.all([
+        this.getTheWeekNegotiations(),
+        this.getLastWeekNegotiations(),
+        this.getOldestNegotiations(),
+      ]);
+      return period
+        .reduce((newArr, curArr) => newArr.concat(curArr), [])
+        .sort((a, b) => b.date.getTime() - a.date.getTime());
+    } catch (error) {
+      throw new Error("Não foi possivel obter as negociações do período.");
+    }
   }
 }
