@@ -30,30 +30,26 @@ export class NegotiationController {
     this._init();
   }
 
-  _init() {
-    getNegotiationDao()
-      .then((dao) => dao.getAll())
-      .then((negotiations) => {
-        negotiations.forEach((n) => this._negotiations.add(n));
-      });
+  async _init() {
+    try {
+      const dao = await getNegotiationDao();
+      const negotiations = await dao.getAll();
+      negotiations.forEach((n) => this._negotiations.add(n));
+    } catch (error) {
+      this._message.text = error.message;
+    }
   }
 
-  add(event) {
+  async add(event) {
     try {
-      const negotiation = this._createNegotiation();
       event.preventDefault();
-      getNegotiationDao()
-        .then((dao) => {
-          dao.save(negotiation);
-        })
-        .then(() => {
-          this._negotiations.add(negotiation);
-          this._message.text = "Negociação adicionada com sucesso!";
-          this._cleanForm();
-        })
-        .catch((err) => (this._message.text = err));
+      const negotiation = this._createNegotiation();
+      const dao = await getNegotiationDao()
+      await dao.save(negotiation)
+      this._negotiations.add(negotiation);
+      this._message.text = "Negociação adicionada com sucesso!";
+      this._cleanForm();
     } catch (error) {
-      console.error(error);
       if (error instanceof InvalidDateException) {
         this._message.text = error.message;
       } else {
@@ -63,34 +59,31 @@ export class NegotiationController {
     }
   }
 
-  clear() {
-    getNegotiationDao()
-      .then((dao) => dao.deleteAll())
-      .then(() => {
-        this._negotiations.removeAll();
-        this._message.text = "Negociações removidas!";
-      })
-      .catch((err) => {
-        this._message.text = err;
-      });
+  async clear() {
+    try {
+      const dao = await getNegotiationDao()
+      await dao.deleteAll()
+      this._negotiations.removeAll();
+      this._message.text = "Negociações removidas!";
+    } catch (error) {
+      this._message.text = error.message;
+    }
   }
 
-  importNegotiations() {
-    this._service
-      .getPeriodNegotiations()
-      .then((negotiations) => {
-        negotiations
-          .filter((negotiation) => {
-            return !this._negotiations
-              .toArray()
-              .some((existentNegotiation) =>
-                existentNegotiation.equals(negotiation)
-              );
-          })
-          .forEach((negotiation) => this._negotiations.add(negotiation));
-        this._message.text = "Negociações importadas com sucesso!";
-      })
-      .catch((err) => (this._message.text = err));
+  async importNegotiations() {
+    try {
+      const negotiations = await this._service.getPeriodNegotiations()
+      negotiations.filter((negotiation) => {
+        return !this._negotiations
+          .toArray()
+          .some((existentNegotiation) =>
+            existentNegotiation.equals(negotiation)
+          );
+      }).forEach((negotiation) => this._negotiations.add(negotiation));
+      this._message.text = "Negociações importadas com sucesso!";
+    } catch (error) {
+      this._message.text = error.message;
+    }
   }
 
   _createNegotiation() {
