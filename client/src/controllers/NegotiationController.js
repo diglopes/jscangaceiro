@@ -10,7 +10,7 @@ import {
   DateConverter,
   InvalidDateException,
 } from "../ui/index.js";
-import { Bind, getNegotiationDao } from "../util/index.js";
+import { Bind, getNegotiationDao, getExceptionMessage } from "../util/index.js";
 
 export class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
@@ -36,7 +36,7 @@ export class NegotiationController {
       const negotiations = await dao.getAll();
       negotiations.forEach((n) => this._negotiations.add(n));
     } catch (error) {
-      this._message.text = error.message;
+      this._message.text = getExceptionMessage(error);
     }
   }
 
@@ -44,14 +44,14 @@ export class NegotiationController {
     try {
       event.preventDefault();
       const negotiation = this._createNegotiation();
-      const dao = await getNegotiationDao()
-      await dao.save(negotiation)
+      const dao = await getNegotiationDao();
+      await dao.save(negotiation);
       this._negotiations.add(negotiation);
       this._message.text = "Negociação adicionada com sucesso!";
       this._cleanForm();
     } catch (error) {
       if (error instanceof InvalidDateException) {
-        this._message.text = error.message;
+        this._message.text = getExceptionMessage(error);
       } else {
         this._message.text =
           "Um erro não esperado aconteceu. Entre em contato com o suporte.";
@@ -61,28 +61,30 @@ export class NegotiationController {
 
   async clear() {
     try {
-      const dao = await getNegotiationDao()
-      await dao.deleteAll()
+      const dao = await getNegotiationDao();
+      await dao.deleteAll();
       this._negotiations.removeAll();
       this._message.text = "Negociações removidas!";
     } catch (error) {
-      this._message.text = error.message;
+      this._message.text = getExceptionMessage(error);
     }
   }
 
   async importNegotiations() {
     try {
-      const negotiations = await this._service.getPeriodNegotiations()
-      negotiations.filter((negotiation) => {
-        return !this._negotiations
-          .toArray()
-          .some((existentNegotiation) =>
-            existentNegotiation.equals(negotiation)
-          );
-      }).forEach((negotiation) => this._negotiations.add(negotiation));
+      const negotiations = await this._service.getPeriodNegotiations();
+      negotiations
+        .filter((negotiation) => {
+          return !this._negotiations
+            .toArray()
+            .some((existentNegotiation) =>
+              existentNegotiation.equals(negotiation)
+            );
+        })
+        .forEach((negotiation) => this._negotiations.add(negotiation));
       this._message.text = "Negociações importadas com sucesso!";
     } catch (error) {
-      this._message.text = error.message;
+      this._message.text = getExceptionMessage(error);
     }
   }
 
