@@ -15,8 +15,10 @@ import {
   getNegotiationDao,
   getExceptionMessage,
   debounce,
+  controller,
 } from "../util/index.js";
 
+@controller("#data", "#quantidade", "#valor")
 export class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
     Object.assign(this, { _dateInput, _quantityInput, _valueInput });
