@@ -10,7 +10,12 @@ import {
   DateConverter,
   InvalidDateException,
 } from "../ui/index.js";
-import { Bind, getNegotiationDao, getExceptionMessage } from "../util/index.js";
+import {
+  Bind,
+  getNegotiationDao,
+  getExceptionMessage,
+  debounce,
+} from "../util/index.js";
 
 export class NegotiationController {
   constructor(_dateInput, _quantityInput, _valueInput) {
@@ -70,6 +75,7 @@ export class NegotiationController {
     }
   }
 
+  @debounce()
   async importNegotiations() {
     try {
       const negotiations = await this._service.getPeriodNegotiations();
