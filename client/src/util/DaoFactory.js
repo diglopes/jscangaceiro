@@ -1,8 +1,11 @@
 import { NegotiationDao } from "../domain/negotiation/NegotiationDao.js";
 import { ConnectionFactory } from "./ConnectionFactory.js";
 
-export function getNegotiationDao() {
-  return ConnectionFactory.getConnection().then(
-    (conn) => new NegotiationDao(conn)
-  );
+export async function getNegotiationDao() {
+  try {
+    const conn = await ConnectionFactory.getConnection();
+    return new NegotiationDao(conn);
+  } catch (error) {
+    throw error;
+  }
 }
