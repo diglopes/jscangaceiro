@@ -1,5 +1,11 @@
+import { requiredParam } from "../../util/index.js";
+
 export class Negotiation {
-  constructor(_date, _quantity, _value) {
+  constructor(
+    _date = requiredParam("date"),
+    _quantity = requiredParam("quantity"),
+    _value = requiredParam("value")
+  ) {
     Object.assign(this, {
       _quantity,
       _value,
