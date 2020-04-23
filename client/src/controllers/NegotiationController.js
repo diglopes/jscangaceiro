@@ -1,4 +1,4 @@
-import { Negotiations, Negotiation, NegotiationService } from "../domain";
+import { Negotiations, Negotiation } from "../domain";
 import {
   NegotiationsView,
   Message,
@@ -30,7 +30,6 @@ export class NegotiationController {
       new MessageView("#message-view"),
       "text"
     );
-    this._service = new NegotiationService();
     this._init();
   }
 
@@ -80,7 +79,11 @@ export class NegotiationController {
   @debounce()
   async importNegotiations() {
     try {
-      const negotiations = await this._service.getPeriodNegotiations();
+      const { NegotiationService } = await System.import(
+        "../domain/negotiation/NegotiationService"
+      );
+      const service = new NegotiationService();
+      const negotiations = await service.getPeriodNegotiations();
       negotiations
         .filter((negotiation) => {
           return !this._negotiations
