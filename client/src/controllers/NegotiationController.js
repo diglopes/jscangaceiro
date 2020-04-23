@@ -79,7 +79,7 @@ export class NegotiationController {
   @debounce()
   async importNegotiations() {
     try {
-      const { NegotiationService } = await System.import(
+      const { NegotiationService } = await import(
         "../domain/negotiation/NegotiationService"
       );
       const service = new NegotiationService();
