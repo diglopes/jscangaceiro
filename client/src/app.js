@@ -1,6 +1,9 @@
 import { NegotiationController } from "./controllers/NegotiationController.js";
 import { Negotiation } from "./domain/index.js";
 
+import "bootstrap/dist/css/bootstrap.css";
+import "bootstrap/dist/css/bootstrap-theme.css";
+
 // Testing the POST route
 const negotiation = new Negotiation(new Date(), 1, 200);
 const headers = new Headers();
