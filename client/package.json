@@ -5,7 +5,8 @@
   "license": "MIT",
   "scripts": {
     "bundle:dev": "webpack --config webpack.config.js",
-    "bundle:prod": "cross-env NODE_ENV=production npm run bundle:dev"
+    "bundle:prod": "cross-env NODE_ENV=production npm run bundle:dev",
+    "start": "webpack-dev-server"
   },
   "dependencies": {
     "reflect-metadata": "0.1.10"
@@ -17,6 +18,7 @@
     "babel-preset-es2017": "6.24.1",
     "babili-webpack-plugin": "0.1.1",
     "cross-env": "5.0.1",
-    "webpack": "3.1.0"
+    "webpack": "3.1.0",
+    "webpack-dev-server": "2.5.1"
   }
 }
