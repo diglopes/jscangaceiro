@@ -1,5 +1,5 @@
-import { NegotiationDao } from "../domain/negotiation/NegotiationDao.js";
-import { ConnectionFactory } from "./ConnectionFactory.js";
+import { NegotiationDao } from "../domain/negotiation/NegotiationDao";
+import { ConnectionFactory } from "./ConnectionFactory";
 
 export async function getNegotiationDao() {
   try {

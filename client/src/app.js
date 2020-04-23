@@ -1,5 +1,5 @@
-import { NegotiationController } from "./controllers/NegotiationController.js";
-import { Negotiation } from "./domain/index.js";
+import { NegotiationController } from "./controllers/NegotiationController";
+import { Negotiation } from "./domain";
 
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap/dist/css/bootstrap-theme.css";

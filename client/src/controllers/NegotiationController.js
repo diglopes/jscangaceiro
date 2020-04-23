@@ -1,15 +1,11 @@
-import {
-  Negotiations,
-  Negotiation,
-  NegotiationService,
-} from "../domain/index.js";
+import { Negotiations, Negotiation, NegotiationService } from "../domain";
 import {
   NegotiationsView,
   Message,
   MessageView,
   DateConverter,
   InvalidDateException,
-} from "../ui/index.js";
+} from "../ui";
 import {
   Bind,
   getNegotiationDao,
@@ -17,7 +13,7 @@ import {
   debounce,
   controller,
   bindEvent,
-} from "../util/index.js";
+} from "../util";
 
 @controller("#data", "#quantidade", "#valor")
 export class NegotiationController {

@@ -1,4 +1,4 @@
-import { requiredParam } from "../../util/index.js";
+import { requiredParam } from "../../util";
 
 export class Negotiation {
   constructor(

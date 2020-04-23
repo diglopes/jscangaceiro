@@ -1,4 +1,4 @@
-import { requiredParam } from "../index.js";
+import { requiredParam } from "../index";
 
 export function bindEvent(
   event = requiredParam("event"),
