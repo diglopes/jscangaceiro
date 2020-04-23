@@ -102,4 +102,7 @@ module.exports = {
     ],
   },
   plugins,
+  devServer: {
+    noInfo: true,
+  },
 };
