@@ -2,6 +2,7 @@ const path = require("path");
 const babiliPlugin = require("babili-webpack-plugin");
 const extratTextPlugin = require("extract-text-webpack-plugin");
 const optimizeCssPlugin = require("optimize-css-assets-webpack-plugin");
+const webpack = require("webpack");
 
 let plugins = [];
 
@@ -15,6 +16,12 @@ plugins.push(
       },
     },
     canPrint: true,
+  })
+);
+plugins.push(
+  new webpack.ProvidePlugin({
+    $: "jquery/dist/jquery.js",
+    jQuery: "jquery/dist/jquery.js",
   })
 );
 
