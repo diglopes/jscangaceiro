@@ -16,6 +16,7 @@ import {
   getExceptionMessage,
   debounce,
   controller,
+  bindEvent,
 } from "../util/index.js";
 
 @controller("#data", "#quantidade", "#valor")
@@ -47,6 +48,7 @@ export class NegotiationController {
     }
   }
 
+  @bindEvent("submit", ".form")
   async add(event) {
     try {
       event.preventDefault();
@@ -66,6 +68,7 @@ export class NegotiationController {
     }
   }
 
+  @bindEvent("click", "#botao-apaga")
   async clear() {
     try {
       const dao = await getNegotiationDao();
@@ -77,6 +80,7 @@ export class NegotiationController {
     }
   }
 
+  @bindEvent("click", "#botao-importa")
   @debounce()
   async importNegotiations() {
     try {
