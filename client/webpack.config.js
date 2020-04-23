@@ -8,24 +8,27 @@ let plugins = [];
 
 plugins.push(new extratTextPlugin("styles.css"));
 plugins.push(
-  new optimizeCssPlugin({
-    cssProcessor: require("cssnano"),
-    cssProcessorOptions: {
-      discardComments: {
-        removeAll: true,
-      },
-    },
-    canPrint: true,
-  })
-);
-plugins.push(
   new webpack.ProvidePlugin({
     $: "jquery/dist/jquery.js",
     jQuery: "jquery/dist/jquery.js",
   })
 );
 
-if (process.env.NODE_ENV === "production") plugins.push(new babiliPlugin());
+if (process.env.NODE_ENV === "production") {
+  plugins.push(new webpack.optimize.ModuleConcatenationPlugin());
+  plugins.push(new babiliPlugin());
+  plugins.push(
+    new optimizeCssPlugin({
+      cssProcessor: require("cssnano"),
+      cssProcessorOptions: {
+        discardComments: {
+          removeAll: true,
+        },
+      },
+      canPrint: true,
+    })
+  );
+}
 
 module.exports = {
   entry: "./src/app.js",
