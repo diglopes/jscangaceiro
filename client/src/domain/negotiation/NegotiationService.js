@@ -8,7 +8,7 @@ export class NegotiationService {
   }
 
   getTheWeekNegotiations() {
-    return this._http.get(`${SERVICE_URL}/negociacoes/semana`).then(
+    return this._http.get(`/negociacoes/semana`).then(
       (data) =>
         data.map(
           ({ data, quantidade, valor }) =>
@@ -23,7 +23,7 @@ export class NegotiationService {
   }
 
   getLastWeekNegotiations() {
-    return this._http.get(`${SERVICE_URL}/negociacoes/anterior`).then(
+    return this._http.get(`/negociacoes/anterior`).then(
       (data) =>
         data.map(
           ({ data, quantidade, valor }) =>
@@ -38,7 +38,7 @@ export class NegotiationService {
   }
 
   getOldestNegotiations() {
-    return this._http.get(`${SERVICE_URL}/negociacoes/retrasada`).then(
+    return this._http.get(`/negociacoes/retrasada`).then(
       (data) =>
         data.map(
           ({ data, quantidade, valor }) =>
